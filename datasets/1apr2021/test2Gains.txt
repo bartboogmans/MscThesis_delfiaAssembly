@@ -1,0 +1,957 @@
+classdef ObjectivePlanner <handle
+    %ObjectivePlanner Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        node
+        fleet
+        controllers
+        objectiveTimer
+        objectiveTic
+        phase
+        paused
+        phaseTic
+    end
+    
+    methods
+        function obj = ObjectivePlanner()
+            %ObjectivePlanner() Construct an instance of this class
+            %   Detailed explanation goes here
+            obj.phase = 0;
+            settings = delfiaSettings();
+            obj.node = ros.Node('objective_planning_node',settings.hostname,'NodeHost',settings.myIP);
+            
+            %% Make vessel objects that store vessel data.
+            obj.fleet = Delfia.empty;
+            for i = 1:settings.n_vessels
+                obj.fleet(i) = Delfia(0,0,0,settings.vesselnames{i});
+            end
+            
+            %% Make controller objects that use vessel objects to send actuation to
+            % network
+            obj.controllers = MultiVesselPlatformController.empty;
+            for i = 1:settings.n_vessels
+                obj.controllers(i) = MultiVesselPlatformController(0, 0, 0, settings.controllerNames{i});
+                obj.controllers(i).initROSNode();
+            end
+            
+            for i = 1:settings.n_vessels
+                obj.controllers(i).refPub = ros.Publisher(obj.controllers(i).ROSNode,settings.topicnames.platformReference{i},settings.messageTypes.platformReference);
+                obj.controllers(i).refSub = ros.Subscriber(obj.controllers(i).ROSNode,settings.topicnames.platformReference{i},settings.messageTypes.platformReference,{@obj.ros_sub_ref,obj.controllers(i)});
+            end
+            
+            % Set up initial configuration: All vessels are operating alone
+            for i = 1:settings.n_vessels
+                obj.controllers(i).attachBody(obj.fleet(i));             
+            end
+            
+            
+            disp('done')
+            obj.objectiveTic = tic;
+            obj.objectiveTimer = timer(...
+                'ExecutionMode', 'fixedRate', ...
+                'Period', (1/2), ...
+                'BusyMode', 'drop',...
+                'TimerFcn', {@obj.objectiveTimedFnc},...
+                'Name', 'objectiveTimer' );
+            
+            
+            start(obj.objectiveTimer);
+        end
+        
+        function delete(obj)
+            
+            if ~isempty(obj.objectiveTimer)
+                delete(obj.objectiveTimer)
+            end
+            
+            obj.stopvessels();
+            % Remove all associated objects:
+            
+            if ~isempty(obj.node)
+                %disp(join(['Deleting objectiveplanner object.node ',obj.node.Name]))
+                delete(obj.node)
+            end
+            
+            if ~isempty(obj.fleet)
+                
+                delete(obj.fleet)
+            end
+            
+            if ~isempty(obj.controllers)
+                delete(obj.controllers)
+            end
+            
+            
+        end
+        
+        function objectiveTimedFnc(obj,~,~,~,~,~)
+            
+            if obj.paused == true
+                
+            end
+            
+            %METHOD1 Summary of this method goes here
+            %   Do some action that progresses the experiment in steps
+            switch obj.phase
+                case 0  % startup
+                    obj.controllers(1).x_r = [0,-0.75,0,0,0,0];
+                    obj.controllers(1).ros_pub_ref();
+                    obj.controllers(2).x_r = [0,0,0,0,0,0];
+                    obj.controllers(2).ros_pub_ref();
+                    obj.controllers(3).x_r = [0,0.75,0,0,0,0];
+                    obj.controllers(3).ros_pub_ref();
+                    
+                    p1LocationAccepted = obj.controllers(1).RoA_check([0.05,0.05,0.3]);
+                    p2LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                    p3LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                    if(p1LocationAccepted&&p2LocationAccepted&&p3LocationAccepted&&(toc(obj.objectiveTic)>20))
+                        obj.phase = obj.phase+1;
+                        obj.phaseTic = tic;
+                        disp(join(['Going to phase: ',string(obj.phase+1)]))
+                    end
+                    
+                    
+                case 1
+                    if(toc(obj.phaseTic)>=8) % Four seconds to cool down at start of this phase. 
+                        obj.controllers(1).x_r = [1,-0.75,0,0,0,0];
+                        obj.controllers(1).ros_pub_ref();
+                        obj.controllers(2).x_r = [1,0,0,0,0,0];
+                        obj.controllers(2).ros_pub_ref();
+                        obj.controllers(3).x_r = [1,0.75,0,0,0,0];
+                        obj.controllers(3).ros_pub_ref();
+                        
+                        p1LocationAccepted = obj.controllers(1).RoA_check([0.05,0.05,0.3]);
+                        p2LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        p3LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        if(p1LocationAccepted&&p2LocationAccepted&&p3LocationAccepted)
+                            obj.phase = obj.phase+1;
+                            obj.phaseTic = tic;
+                            disp(join(['Going to phase: ',string(obj.phase+1)]))
+                        end
+                    end
+                case 2
+                    if(toc(obj.phaseTic)>=8) % Four seconds to cool down at start of this phase. 
+                        obj.controllers(1).x_r = [1,-0.75,pi/2,0,0,0];
+                        obj.controllers(1).ros_pub_ref();
+                        obj.controllers(2).x_r = [1,0,pi/2,0,0,0];
+                        obj.controllers(2).ros_pub_ref();
+                        obj.controllers(3).x_r = [1,0.75,pi/2,0,0,0];
+                        obj.controllers(3).ros_pub_ref();
+                        
+                        p1LocationAccepted = obj.controllers(1).RoA_check([0.05,0.05,0.3]);
+                        p2LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        p3LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        if(p1LocationAccepted&&p2LocationAccepted&&p3LocationAccepted)
+                            obj.phase = obj.phase+1;
+                            obj.phaseTic = tic;
+                            disp(join(['Going to phase: ',string(obj.phase+1)]))
+                        end
+                    end
+                    
+                    
+                case 3
+                    if(toc(obj.phaseTic)>=8) % Four seconds to cool down at start of this phase.
+                        obj.controllers(1).x_r = [1.25,-0.75,pi/2,0,0,0];
+                        obj.controllers(1).ros_pub_ref();
+                        obj.controllers(2).x_r = [1.25,0,pi/2,0,0,0];
+                        obj.controllers(2).ros_pub_ref();
+                        obj.controllers(3).x_r = [1.25,0.75,pi/2,0,0,0];
+                        obj.controllers(3).ros_pub_ref();
+                        
+                        p1LocationAccepted = obj.controllers(1).RoA_check([0.05,0.05,0.3]);
+                        p2LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        p3LocationAccepted = obj.controllers(2).RoA_check([0.05,0.05,0.3]);
+                        if(p1LocationAccepted&&p2LocationAccepted&&p3LocationAccepted)
+                            obj.phase = obj.phase+1;
+                            obj.phaseTic = tic;
+                            disp(join(['Going to phase: ',string(obj.phase+1)]))
+                        end
+                    end
+                case 4
+                    obj.phase = 99;
+                    
+                case 99
+                    if(toc(obj.phaseTic)>=8) % Four seconds to cool down at start of this phase.
+                        obj.controllers(1).x_r = [1,-0.75,0,0,0,0];
+                        obj.controllers(1).ros_pub_ref();
+                        obj.controllers(2).x_r = [1,0,0,0,0,0];
+                        obj.controllers(2).ros_pub_ref();
+                        obj.controllers(3).x_r = [1,0.75,0,0,0,0];
+                        obj.controllers(3).ros_pub_ref();
+                    end
+            end
+        end
+        
+        % Calls when a message is published on actuation topic
+        %function [] = ROS_location_callback(~,message,vessel,~)
+            %vessel.ros_sub_pose(message);            
+        %end
+        
+        function ros_sub_ref(~,~,message,controller)  
+            controller.ros_sub_ref(message);
+        end
+       
+        function stop(obj)
+            
+            
+            try
+                stop(obj.objectiveTimer);
+            catch
+                disp('Warning: could not stop ObjectivePlanner.objectiveTimer');
+            end
+            try
+                delete(obj.objectiveTimer);
+            catch
+                disp('Warning: could not delete ObjectivePlanner.objectiveTimer');
+            end
+            try
+                delete(obj.node);
+            catch
+                disp('Warning: could not delete ObjectivePlanner.node');
+            end
+            
+        end
+        
+        
+        function stopvessels(obj)
+            
+            for vessel = obj.fleet
+                try 
+                    vessel.thrAngle = [0;0];
+                    vessel.thrSpd = [0;0];
+                    vessel.thrForce = [0;0];
+                    vessel.ros_pub_actuation();
+                catch
+                    
+                end
+            end
+        end
+    end
+end
+
+
+
+
+classdef MultiVesselPlatformController < Vessel & handle
+    properties
+        bodies           % array contains handles to vessels that are connected
+        
+        running          % 1/0 on off if runs actuation steps
+        % Control
+        Cm               % Participation coefficient for moment to achieve: Fi, = Cm*R*Mtotal, satsifying sum(mi) = Mtotal and Mi = Ri x Fi
+        Cf               % Participation coefficient for force
+        
+        
+        
+        %% PID related variables
+        PIDs
+        %        PIDx                 % Controller objects
+        %        PIDy
+        %        PIDyaw
+        x_r                  % Reference state
+        e                    % State error
+        %        ex
+        %        ey
+        %
+        
+        t_last_update        % Time of last PID controller update
+        
+        ixx
+        respondcounter
+        
+        
+        
+        
+        Mres_max             % Maximum moment that a configuration can attain (linear atm)
+        Fres_max             % Maximum force that a configuration can attain (all thrusters on max in a certain direction)
+        
+        
+        %  PID Gains [Kp,Ki,Kd] [3x1] double
+        Kxy                  % PID gains for location control (dependent on configuration)
+        Ka                   % Pid gains for angle control (dependent on configuration)
+        Kxy_0                % PID gains for location control reference value (reference value would be for a single vessel)
+        Ka_0                 % PID gains for location control reference value (reference value would be for a single vessel)
+        
+
+        %{
+       K_xy_base
+       K_a_base
+       K_xy
+       K_a
+       
+       %kp_xy_base
+       %ki_xy_base
+       %kd_xy_base
+       %kp_a_base
+       %ki_a_base
+       %kd_a_base
+       kp_xy
+       ki_xy
+       kd_xy
+       kp_a
+       ki_a
+       kd_a
+        %}
+        
+        ROSNode
+        
+        refSub
+        refPub
+        %specialSub
+        %specialPub
+        
+        plotref
+        plotvessels
+        
+    end
+    
+    methods
+        % Constructor
+        function obj = MultiVesselPlatformController(x_,y_,yaw_,name_,~)
+            obj = obj@Vessel(x_,y_,yaw_,name_);
+            obj.bodies = Delfia.empty;
+            obj.running = true;
+            obj.ixx = 0;
+            
+            obj.w = 0.5;
+            obj.l = 0.5;
+            
+            obj.Kxy_0 = [0.05,0.00125,0.1];
+            obj.Ka_0 = [0.03,0,0.002];
+            
+            obj.PIDs = dPID.empty;
+            obj.PIDs(1) = dPID(obj.Kxy_0(1), obj.Kxy_0(2), obj.Kxy_0(3));
+            obj.PIDs(2) = dPID(obj.Kxy_0(1), obj.Kxy_0(2), obj.Kxy_0(3));
+            obj.PIDs(3) = dPID(obj.Ka_0(1), obj.Ka_0(2), obj.Ka_0(3));
+            obj.t_last_update = 0;
+            
+            obj.plotref = true;
+        end
+        
+        % Destructor
+        function delete(obj)
+            
+            if ~isempty(obj.ROSNode)
+                disp(join(['Deleting ',obj.name,' .ROSNode ',obj.ROSNode.Name]))
+                delete(obj.ROSNode)
+            end
+            
+            if ~isempty(obj.refSub)
+                disp(join(['Deleting ',obj.name,' .refSub ',obj.refSub.TopicName]))
+                delete(obj.refSub)
+            end
+            
+            if ~isempty(obj.refPub)
+                disp(join(['Deleting ',obj.name,' .refPub ',obj.refPub.TopicName]))
+                delete(obj.refPub)
+            end
+            
+        end
+        
+        %% Adding and removing bodies
+        
+        function attachBody(obj,body)
+            % optional addition: Check if body is valid (right format, and
+            % not already in configuration
+            if isempty(obj.bodies)
+                obj.x = body.x;
+                body.platf_eta = [0;0;0]; % Set the platform axis to coincide with the axis of the first connected body
+            end
+            
+            obj.bodies(length(obj.bodies)+1) = body;
+            %body.currentController = obj; % set handle from vessel to controlling platform class
+            
+            % do some control tasks
+            obj.setCentreOfMass;
+            % recalculate participation of actuators
+            % recalculate mass, inertia etc
+            % recalculate PID gains
+            % recalculate maximum obtainable inputs
+            
+            
+            obj.calculateCmAndCf;
+            
+            if ~isempty(obj.ROSNode)
+                settings = delfiaSettings();
+                body.actuation_publisher =ros.Publisher(obj.ROSNode,join(['/actuation',body.name]),settings.messageTypes.vesselActuation);
+                body.location_subscriber = ros.Subscriber(obj.ROSNode,join(['/vrpn_client_node/',body.name,'/pose']),settings.messageTypes.vesselPose,{@obj.bodyPoseCallback,body});
+            end
+        end
+        
+        function detatchBody(obj,index)
+            %obj.bodies(index).currentController = [];
+            obj.bodies = [obj.bodies(1:index-1),obj.bodies(index+1:length(obj.bodies))];
+            
+            % do some control tasks
+            obj.setCentreOfMass;
+            % recalculate participation of actuators
+            % recalculate mass, inertia etc
+            % recalculate PID gains
+            % recalculate maximum obtainable inputs
+            
+            % XX remove or delete ROS subscriber and publisher
+        end
+        
+        %% ROS
+        function initROSNode(obj)
+            settings = delfiaSettings();
+            obj.ROSNode = ros.Node(obj.name,settings.hostname,'NodeHost',settings.myIP);
+            %obj.ros_sub_ref  XX implement this
+        end
+        
+        function bodyPoseCallback(obj,~,message,body)
+            % register position
+            body.ros_sub_pose(message);
+            obj.ixx = obj.ixx +1;
+            
+            t = message.Header.Stamp.Sec + message.Header.Stamp.Nsec* 10^-9;
+            if obj.ixx ==6 % Only update controls once per 3 messages, to reduce frequency from 30 to 10 hz.
+                obj.ixx = 0;
+                
+                % actuate
+                if strcmp(body.name,obj.bodies(1).name) % Only for location updates of first vessel atm [BB]
+                    %disp('actuate');
+                    obj.x = body.x; %% THIS IS WRONG EXCEPT FOR SINGLE VESSEL SITUATION BUT WILL USE IT FOR TESTING XX
+                    if ~isempty(obj.x_r)
+                        obj.run_controls(t);
+                    end
+
+                end
+                
+            end
+        end
+        
+        function ros_sub_ref(obj,message)
+            obj.x_r(1:3) =  [message.X;message.Y;message.Theta];
+        end
+        
+        function ros_pub_ref(obj)
+            msg = rosmessage(obj.refPub);
+            msg.X = obj.x_r(1);
+            msg.Y = obj.x_r(2);
+            msg.Theta = obj.x_r(3);
+            send(obj.refPub,msg);
+        end
+        
+        function ros_pub_actuation(obj)
+            for vessel = obj.bodies
+                vessel.ros_pub_actuation;
+            end
+        end
+        
+        %% Control planning
+        
+        function run_controls(obj,systime)
+            if obj.running == true
+                dt = systime-obj.t_last_update;
+                
+                % calculate errors
+                obj.e = obj.calcError(obj.x_r);
+                %disp(join(['dt = ',string(dt)]));
+                % run controls to get forces/moments on body
+                %disp('running pids');
+                
+                Fx = obj.PIDs(1).run(obj.e(1),dt);
+                Fy = obj.PIDs(2).run(obj.e(2),dt);
+                Mc = obj.PIDs(3).run(obj.e(3),dt);
+                
+                F_ = R2d(-obj.x(3))*[Fx;Fy]; % convert global input to force vector in local frame
+                
+                % Send commands via ROS
+                
+                
+                obj.actuate(F_,Mc);
+                %disp(join(['Fx = ',string(Fx),' Fy = ',string(Fy),' Mc = ',string(Mc), ]));
+                for vessel = obj.bodies
+                    %vessel.calcThrSpd();
+                    vessel.ros_pub_actuation;
+                end
+                
+                obj.t_last_update =  systime;
+            end
+        end
+       
+        % function actuate gives a solution to the overactuation challenge.
+        % Part's of the rigid body are to
+        function actuate(obj,F,M)
+            
+            % Calculate resultant moment due to application of equal forces
+            % troughout body to satisfy Sum(Fi)=Ftotal
+            for vessel = obj.bodies % For each vessel on rigid body
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    F_thr_pf = obj.Cf * F;     % Desired force to do a share in attaining resultant force
+                    F_thr_vf = R2d(-vessel.platf_eta(3))*F_thr_pf;    % Thruster force converted to vessel frame
+                    
+                    
+                    %vessel.thrusterforce_to_actuation(i,F_thr_vf);      %
+                    %Set the vessel's thruster
+                    vessel.thrForce(i) = sqrt(F_thr_vf(1)^2 + F_thr_vf(2)^2);
+                    if vessel.thrForce(i) > 0 % Only adjust thruster angle if it is active
+                        vessel.thrAngle(i) = angle(F_thr_vf(1)+1i*F_thr_vf(2));
+                    end
+                end
+            end
+            [~,M2] = obj.calculateResultantsOfActuators; % Resulting moment if F would be spread equally:
+            
+            % Compensate desired moment due to previously calculated
+            % resulting moment
+            M = M - M2;
+            for vessel = obj.bodies % For each vessel on rigid body
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    
+                    r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM; % location with respect to Centre of mass in platform frame
+                    Fm = obj.Cm * M *[-r_pf(2);r_pf(1)];  % Desired force to do a share in attaining resultant moment. Note how r_pf is flipped.
+                    Ff = obj.Cf * F;     % Desired force to do a share in attaining resultant force
+                    
+                    F_thr_pf = Fm+Ff;                                   % Thruster force in platform frame
+                    F_thr_vf = R2d(-vessel.platf_eta(3))*F_thr_pf;    % Thruster force converted to vessel frame
+                    
+                    %vessel.thrusterforce_to_actuation(i,F_thr_vf);      %
+                    %Set the vessel's thruster
+                    vessel.thrForce(i) = sqrt(F_thr_vf(1)^2 + F_thr_vf(2)^2);
+                    if vessel.thrForce(i) > 0 % Only adjust thruster angle if it is active
+                        vessel.thrAngle(i) = angle(F_thr_vf(1)+1i*F_thr_vf(2));
+                    end
+                end
+                vessel.calcThrSpd;
+                vessel.bound_motor_speeds();
+            end
+            
+            
+            
+            
+        end
+        
+        % Calculate resultant forces of actuator input, given the centre of
+        % mass has already been identified. This function can be used to check
+        % behavior of the actuation functions.
+        function [F,M] = calculateResultantsOfActuators(obj)
+            Mres = 0;
+            Fres = [0;0];
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    v = vessel.r_thr(i,:);
+                    R = R2d(vessel.platf_eta(3));
+                    v2 = vessel.platf_eta(1:2);
+                    Rloc = R*v' ;
+                    %N_I = [n,i];
+                    r_c_pf = Rloc + v2 - obj.r_CoM;
+                    
+                    %r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + [vessel.platf_eta(1),vessel.platf_eta(2)]';
+                    Fthr_vessel = R2d(vessel.thrAngle(i)) * [vessel.thrForce(i);0];
+                    Fthr_pf = R2d(vessel.platf_eta(3))*Fthr_vessel;
+                    
+                    Mi = cross([r_c_pf',0],[Fthr_pf',0]);
+                    
+                    Mres = Mres + Mi(3);
+                    Fres = Fres+ Fthr_pf;
+                end
+            end
+            F = Fres;
+            M = Mres;
+        end
+             
+        %% Solve overactuation
+        function calculateCmAndCf(obj)
+            
+            CmtotInv = 0;
+            numActuators = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    r_c = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM;
+                    CmtotInv = CmtotInv+ r_c(1)^2 + r_c(2)^2;
+                    numActuators = numActuators +1;
+                end
+            end
+            obj.Cm = 1/CmtotInv;
+            obj.Cf = 1/numActuators;
+        end
+            
+        %% Control of Forces and moments
+        function setCentreOfMass(obj)
+            if length(obj.bodies)>=1
+                RM =[0;0];
+                M = 0;
+                for n = 1:length(obj.bodies)
+                    RM = RM + obj.bodies(n).m*obj.bodies(n).x(1:2);
+                    M = M + obj.bodies(n).m;
+                end
+                obj.r_CoM = RM/M;
+            else
+                obj.r_CoM = [0;0];
+            end
+        end
+        
+        function re_estimate_controller_gains(obj)
+            % Find maximum force within thruster operational bounds:
+            
+            % Find furthest thruster distance to CoM
+            r_max = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM; % location with respect to Centre of mass in platform frame
+                    r_abs = sqrt(r_pf^2+r_pf^2);
+                    if r_abs>r_max
+                        r_max = r_abs;
+                    end
+                end
+            end
+            
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel (e.g. = 2)
+                    
+                    r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM; % location with respect to Centre of mass in platform frame
+                    r_abs = sqrt(r_pf^2+r_pf^2);
+                    
+                    F_thr_pf = r_abs/r_max * obj.F_thruster_max *[-r_pf(2);r_pf(1)];  % Desired force to do a share in attaining resultant moment. Note how r_pf is flipped.
+                    %Ff = obj.Cf * F;     % Desired force to do a share in attaining resultant force
+                    
+                    %F_thr_pf = Fm+Ff;                                   % Thruster force in platform frame
+                    F_thr_vf = R2d(-vessel.platf_eta(3))*F_thr_pf;    % Thruster force converted to vessel frame
+                    vessel.thrusterforce_to_actuation(i,F_thr_vf);      % Set the vessel's actuator
+                end
+            end
+            
+            [~,obj.Mres_max] = obj.calculateResultantsOfActuators; % around z axis.
+            obj.Fres_max = length(obj.bodies)*2*obj.F_thruster_max/sqrt(2); % in x and y direction (hence the sqrt(2) part)
+            
+            % integrator part schaalt omgekeerd evenredig met de
+            % traagheid/maxinput
+            % Derivative part schaalt evenredig met de traagheid
+            
+            % dit allemaal weer respectievelijk tot de originele waarden.
+            
+            
+            obj.kp_xy = obj.kp_xy_base*obj.length(obj.bodies);
+            obj.ki_xy = obj.ki_xy_base*obj.length(obj.bodies);
+            obj.kd_xy = obj.kd_xy_base*obj.length(obj.bodies);
+            
+            % Find maximum torque witin thruster operational bounds
+            
+            obj.r_CoM = findCentreOfMass(obj);
+            
+            %Max_torque = 0;
+            obj.kp_a_base = 0;
+            obj.ki_a_base =0;
+            obj.kd_a_base = 0;
+        end
+        
+        % Calculate the moment of inertia of the platform. Added mass is
+        % simplified as equal in all directions.
+        function I = calcInertia(obj)
+            Itotal = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                r_CoM_pf = R2d(vessel.platf_eta(3))*vessel.CoM + vessel.platf_eta(1:2)-obj.r_CoM; % location of mass n in platform frame with respect to platform CoM
+                I_added = vessel.I_z + sqrt(r_CoM_pf(1)^2+ r_CoM_pf(2)^2)^2*vessel.mass;
+                Itotal = Itotal + I_added;
+            end
+            I = Itotal;
+        end
+        
+        % sum masses in platform
+        function M = calcMass(obj)
+            Mtotal = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                Mtotal = Mtotal+obj.bodies(n).mass;
+            end
+            M = Mtotal;
+        end
+        
+        % While aplying a linear moment/r, find Maximum M
+        function M = findMaxMoment(obj)
+            
+            % Find furthest thruster distance to CoM
+            r_max = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM; % location with respect to Centre of mass in platform frame
+                    r_abs = sqrt(r_pf^2+r_pf^2);
+                    if r_abs>r_max
+                        r_max = r_abs;
+                    end
+                end
+            end
+            
+            % Set all actuators to full moment participation
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    r_pf = R2d(vessel.platf_eta(3))*vessel.r_thr(i,:)' + vessel.platf_eta(1:2) - obj.r_CoM;
+                    %r_pf_abs = sqrt(r_pf(1)^2+r_pf(2)^2);
+                    Fi = [-r_pf(2);r_pf(1)]/r_max* vessel.thrusterforcemax;
+                    F_vf = R2d(-vessel.platf_eta(3))*Fi;
+                    vessel.thrusterforce_to_actuation(i,F_vf)
+                end
+            end
+            
+            % Calculate the Moment of current actuation
+            [~,M] = calculateResultantsOfActuators(obj);
+        end
+        
+        % find maximum resultant force due to propellors in x,y
+        function F = findMaxForce(obj)
+            Fsum = 0;
+            for n = 1:length(obj.bodies) % For each vessel on rigid body
+                vessel = obj.bodies(n);
+                for i = 1:length(vessel.r_thr) % For each thruster on vessel
+                    Fsum = Fsum+vessel.thrusterforcemax;
+                end
+            end
+            F = Fsum;
+        end
+        
+        function set_PID_gains(obj)
+            obj.Ct_xy = 0;
+        end
+        
+        % Checks if the current position is within a certain range of
+        % acceptance: threshold version A
+        function acceptance = RoA_check(obj,dx_a)
+            acceptance = true;
+            if(abs(obj.x(1)-obj.x_r(1))>dx_a(1))
+                acceptance = false;
+            elseif(abs(obj.x(2)-obj.x_r(2))>dx_a(2))
+                acceptance = false;
+            elseif(abs(obj.x(3)-obj.x_r(3))>dx_a(3))
+                acceptance = false;
+            end
+        end
+        
+        %% Display
+        function plotPlatform(obj,UI_axis)
+            if obj.plotvessels == true
+                if ~isempty(obj.bodies)
+                    for body = obj.bodies
+                        body(n).plotVessel(UI_axis);
+                    end
+                end
+            end
+            %plot(UI_axis,[obj.r_CoM(1),obj.r_CoM(1)],[obj.r_CoM(2),obj.r_CoM(2)],'k*');
+            % the above only works in platform frame
+            
+            
+            % Plot reference axis
+            if obj.plotref==true
+                if ~isempty(obj.x_r)
+                    L_axis = max(obj.w,obj.l)/4; % to scale axis to vessel
+                    R=R2d(obj.x_r(3));
+                    rx = R*[0,L_axis;0,0]+ obj.x_r(1:2)';
+                    ry = R*[0,0;0,L_axis]+ obj.x_r(1:2)';
+                    plot(UI_axis,rx(1,:),rx(2,:),'color',[0.7 0 0]);
+                    plot(UI_axis,ry(1,:),ry(2,:),'color',[0 0.7 0]);
+                end
+            end
+        end
+        
+    end
+end
+
+
+
+classdef Delfia < Vessel & handle
+    
+    %% TODO:
+    % Check for essential difference between this version and the one on
+    % the CameraPC. This one should be (most) accurate
+    
+    properties
+        % Actuator states
+        thrAngle                    % [radians]     (1x2)   Angles of thrusters
+        thrForce                    % [N]           (1x2)   Estimated propulsion force of a thruster (based on ref speed)
+        thrSpd                      % [rounds/s]    (1x2)   Reference speed of thrusters
+        
+        % Configuration parameters
+        platf_eta                   % [m,m,radian]  (1x3)   Pose of this vessel in platform frame if it is connected
+        %currentController           % [Handle]      (1x1)   Handle to controlling entity.
+
+        % Communication
+        actuation_publisher         % [ROS publisher]       Object for sending data to ROS topics
+        actuation_subscriber        % [ROS subscriber]      Object for subscribing to ROS topics
+        location_publisher
+        location_subscriber
+        
+        % Parameters
+        r_thr                       % [m]           (2x2)   Location of thrusters in local frame
+        RPSmin                      % [rounds/s]    (1x1)   Minimum speed of azimuth propeller
+        RPSmax                      % [rounds/s]    (1x1)   Maximum speed of azimuth propeller
+        thrFmax                     % [N]           (1x1)   Maximum force of single azimuth at full power
+        I_z                         % [kg*m^2]      (1x1)   Estimated moment of inertia around z axis
+                
+        % Display
+        plotThr                     % [Bool]        (1x1)   Boolean true if the thruster is to be plotted
+        plotF                       % [Bool]        (1x1)   Boolean true if thruster forces are to be plotted
+        forceColor                  % [rgb colormap](2x3)   Color of the force vectors from the thrusters
+        refColor                    % [rgb colormap](1x3)   Color of the reference
+        thrOutline                  % [double]      (2xi)   Array with data on the thruster perimeter
+    end
+
+    methods
+        function obj = Delfia(x_,y_,yaw_,name_,~)
+            
+            obj = obj@Vessel();
+            obj.RPSmin = 8;
+            obj.RPSmax = 120;
+            
+            if nargin >= 2
+                obj.x(1:3) = [x_;y_;yaw_];
+            end
+            if nargin == 4
+                obj.name = name_;
+            end
+            
+            obj.w = 0.20;
+            obj.l = 0.38;
+            obj.m = 4; %kg for calculating Centre of mass
+            
+            % Prepare Display
+            cf = 0.015; % decorative chamfer
+            obj.outline = [   obj.l/2      ,obj.l/2-cf   ,-obj.l/2+cf    ,-obj.l/2       ,-obj.l/2       ,-obj.l/2+cf    ,obj.l/2-cf     ,obj.l/2        ,obj.l/2 ;
+                                    obj.w/2-cf   ,obj.w/2      ,obj.w/2        ,obj.w/2-cf     ,-obj.w/2+cf    ,-obj.w/2       ,-obj.w/2       ,-obj.w/2+cf    ,obj.w/2-cf];                   
+            obj.thrOutline =   [   0.006,      -0.013,     -0.013,     -0.037,     -0.037,     -0.013,     -0.013,     0.006,      0.006;
+                                        -0.0075,    -0.0075,    -0.023,     -0.020,     0.020,      0.023,      0.0075,     0.0075,     -0.0075 ];
+            obj.r_thr = [-0.155,0;0.155,0];
+            obj.thrAngle = [0,0];
+            obj.thrForce = [0,0];
+            obj.thrSpd = [0,0];
+            obj.plotThr = true;
+            obj.plotF = true;
+            obj.forceColor = [0,1,0 ; 1,0,0];
+            
+            obj.thrFmax = 1.5;      % [N] Rough measurement. I estimate a possibility for 20% error, so use with caution. [BB]
+            obj.I_z = 0.031 + 0.110;        % [kg * m^2] Source: Maurits' model. The first part is inertia from rigid body, the second is due to added mass. 
+            obj.platf_eta = [0;0;0];
+        end
+        
+        
+        function bound_motor_speeds(obj)
+            for i = 1:length(obj.r_thr)
+                if (obj.thrSpd(i) <= obj.RPSmin) && (obj.thrSpd(i) >= -obj.RPSmin)
+                    obj.thrSpd(i) = 0;
+                elseif obj.thrSpd(i) >= obj.RPSmax
+                    obj.thrSpd(i) = obj.RPSmax;
+                elseif obj.thrSpd(i) <= -obj.RPSmax
+                    obj.thrSpd(i) = -obj.RPSmax;
+                end
+            end       
+        end
+        
+        function delete(obj)
+            if ~isempty(obj.actuation_publisher)
+                disp(join(['Deleting ',obj.name,' .actuation_publisher ',obj.actuation_publisher.TopicName]))
+                delete(obj.actuation_publisher)
+            end
+            if ~isempty(obj.actuation_subscriber)
+                disp(join(['Deleting ',obj.name,' .actuation_subscriber ',obj.actuation_subscriber.TopicName]))
+                delete(obj.actuation_subscriber)
+            end
+            if ~isempty(obj.location_publisher)
+                disp(join(['Deleting ',obj.name,' .actuation_publisher ',obj.location_publisher.TopicName]))
+                delete(obj.location_publisher)
+            end
+            if ~isempty(obj.location_subscriber)
+                disp(join(['Deleting ',obj.name,' .actuation_publisher ',obj.location_subscriber.TopicName]))
+                delete(obj.location_subscriber)
+            end
+        end
+        
+        %% Interaction with ROS
+        % Processes an update on ROS pose topic
+        function ros_sub_pose(obj,message)
+            obj.x(1) = message.Pose.Position.X; % Horizontal, in line with the tank (positive = away from carriage)
+            obj.x(2) = message.Pose.Position.Y; % Horizontal, perpendicular to length of tank (positive = towards walkway)
+            eul = euler(quaternion([message.Pose.Orientation.W,message.Pose.Orientation.X,message.Pose.Orientation.Y ,message.Pose.Orientation.Z]),'ZYX','frame');
+            obj.x(3) = eul(1); % Yaw returned ranges from -pi to pi
+        end
+        
+        % Processes an update on ROS actuation topic
+        function ros_sub_actuation(obj,message)
+            obj.thrSpd = [message.Data(1),message.Data(2)];
+            obj.thrAngle = [message.Data(3),message.Data(4)];
+            obj.calcThrF;
+        end
+        
+        % Publish object pose on ROS
+        function ros_pub_pose(obj,time)
+            
+            %RAS_sendOptitrackPose(obj.location_publisher,obj.x(1:3),time);
+            
+            %%{
+            msg = rosmessage(obj.location_publisher);
+            msg.Pose.Position.X = obj.x(1);
+            msg.Pose.Position.Y = obj.x(2);
+            
+            quat = eul2quat([obj.x(3),0,0]);
+            msg.Pose.Orientation.W = quat(1);
+            msg.Pose.Orientation.X = quat(2);
+            msg.Pose.Orientation.Y = quat(3);
+            msg.Pose.Orientation.Z = quat(4);
+            
+            msg.Header.Stamp.Sec = floor(time);
+            msg.Header.Stamp.Nsec = floor((time - floor(time))*1000000);
+            
+            send(obj.location_publisher,msg)
+            
+            %%}
+            
+        end
+  
+        % Publish object actuation on ROS
+        function ros_pub_actuation(obj)
+            msg = rosmessage(obj.actuation_publisher);
+            msg.Data = [obj.thrSpd(1),obj.thrSpd(2),obj.thrAngle(1),obj.thrAngle(2)];
+
+            %msg.Data = [0,0,obj.thrAngle(1),obj.thrAngle(2)];
+            send(obj.actuation_publisher,msg);
+        end
+        
+        %% Display
+        function plotVessel(obj,ax)
+            R = R2d(obj.x(3)); % rotation matrix for yaw around Z axis
+            
+            % Plot the hull
+            plotVessel@Vessel(obj,ax);
+            
+            % Plot the thrusters
+            if obj.plotThr == true
+                for i= 1:length(obj.r_thr)
+                    thruster_vector = R*(R2d(obj.thrAngle(i))*obj.thrOutline + obj.r_thr(i,:)') + obj.x(1:2);
+                    plot(ax,thruster_vector(1,:),thruster_vector(2,:),'color',obj.color);
+                end
+            end
+                        
+            % plot the force vectors assigned to be applied by the thrusters
+            if obj.plotF == true
+                for i= 1:length(obj.r_thr)
+                    force_vector = R*(2.0*R2d(obj.thrAngle(i))*[0,obj.thrForce(i);0,0] + obj.r_thr(i,:)') + obj.x(1:2);
+                    plot(ax,force_vector(1,:),force_vector(2,:),'color',obj.forceColor(i,:))
+                end
+            end   
+        end
+        
+        %% Force and speed conversion
+        % convert force to speed. This is an estimation only. Use with care. [BB 3/2021]
+        function calcThrSpd(obj)
+            for i = 1:length(obj.thrForce)
+                %obj.thrSpd(i) = obj.thrForce(i)*20; old
+                obj.thrSpd(i) = obj.thrForce(i)/0.0018;
+            end
+        end
+        
+        % convert RPS to force. This is an estimation only. Use with care. [BB 3/2021]
+        function calcThrF(obj)
+            for i = 1:length(obj.thrForce)
+                %obj.thrForce(i) = obj.thrSpd(i)/20;
+                obj.thrForce(i) = obj.thrSpd(i)*0.0018;
+                % 45/1000/2*9.81 /120 -? 45g at 120rps @ 2 propellers
+                
+            end
+        end
+    end
+end

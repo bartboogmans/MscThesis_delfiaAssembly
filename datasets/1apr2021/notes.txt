@@ -1,0 +1,2 @@
+I think I operated with code (in files in this dir), to give a certain impulse. This data can be used to formulate a model, or generate model parameters.
+

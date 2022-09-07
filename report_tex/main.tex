@@ -1,0 +1,84 @@
+\documentclass[whitelogo]{tudelft-report}
+\usepackage{natbib}
+\usepackage{changes}
+\usepackage{lscape}
+\usepackage{geometry}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{subfig}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{changepage}
+\usepackage{caption}
+% For appendix of algorythms matlab
+\usepackage{color}
+\usepackage{fancyvrb}
+\usepackage{pdfpages} 
+\usepackage{nomencl}
+%\usepackage{soul}
+%\usepackage{tabu}
+\usepackage{rotating}
+\usepackage{multirow}
+%\usetikzlibrary{tikzmark}
+\usepackage{amssymb}
+\usepackage{tocbibind}
+
+\graphicspath{ {./img/} }
+
+\begin{document}
+	
+	%% Use Roman numerals for the page numbers of the title pages and table of
+	%% contents.
+	\frontmatter
+	%% Uncomment following 16 lines for a cover with a picture on the lower half only
+	
+	\title[tudelft-white]{Vessel-Platform Automation: \\[12pt] Integrating self assembly with \\[8pt] configuration dependent \\[8pt] control strategies}
+	
+	\author[tudelft-white]{Bart \ Boogmans}
+	\affiliation{Technische Universiteit Delft}
+	\coverimage{tank.jpg}
+	
+	\setpagecolor{tudelft-cyan}
+	\makecover[split]
+	
+	%% Include an optional title page.
+	\input{title}
+	
+	%\input{preface}
+	
+	
+	
+	%% Use Arabic numerals for the page numbers of the chapters.
+	
+	
+	\input{summary}
+	
+	\newpage
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Contents}
+	\tableofcontents
+	
+	\input{nomenclatureCustom}
+	\mainmatter
+	\input{introduction}
+	\input{literatureStudy}
+	\input{systemAnalysis}
+	\input{stateDescriptionChapter}
+	\input{SystemDevelopment}
+	\input{systemEvaluation}
+	\input{conclusion}
+
+	\bibliography{bibliography}
+
+% Other
+\appendix
+%\newpage
+\input{appendixTechnicalReport}
+\input{appendixDerivation}
+\input{appendixAlgorythms}
+	
+\end{document}
+

@@ -1,0 +1,216 @@
+ test 4
+started with pid gains
+
+obj.Kxy_0 = [0.05,0.0,0.0];
+obj.Ka_0 = [0.03,0,0.000];
+
+eventually raised them to:
+obj.Kxy_0 = [0.20,0.0,0.0];
+obj.Ka_0 = [0.03,0,0.000];
+
+Somehow Delfia 2 responded to the increased gain very slow... idk why. 
+
+
+Doing test 5 with the same gains I ended with. No ingegral part whatsoever. 
+Sometimes the propellers change orientation without motor activation. this should not be published or handled, as the lone movement of the propellers make the vessel oscillate in an unstable-ish fashion. 
+
+TEST 6
+increased minimum wait time for phase 3 to 30 seconds for test 6 
+Made the amplitude of the location impulses to 1.0x and 0.5y
+
+*NOTE AFTER REVIEWING DATA:
+Step responses look clean. Make sure that the y step gets enough time to settle tho. It was a bit short. 
+Idea for changes in gains: increase Proportional gain to increase response time? 
+I dont really need integral gain as the disturbances are very low in the lab. Maybe this wel help however to solve the small errors that remain, but are too little for the minimum motor speed to actually start compensating. 
+However i'm very afraid that this will only make the system unstable, as it will surely overshoot again, as soon as there is enough integrator buildup.
+
+
+
+TEST 7: same as 6, but now with video
+
+quick review of data: 
+1m step x: risetime = 12sec   (signal ref step change t to response first peak t) max speed was ~ 0.6m/4sec
+0.5 step y: risetime = 203-182 = 21 sec
+1/2pirad step risetime = 4 sec. 
+There is overshoot and oscillation. Dampening later after getting reasonable response times. Especially for x and y. 
+
+
+*Propose for test13: Pxy *2.5, Pa*1 Later test add some dampening. 
+Add some dampening for angle already
+
+
+test 8: first attempt at self assembly. 
+Getting into range worked fine, but they did not get into the range of acceptance of the magnets. Thats pretty hard!
+I tried raising P gain of the location PID controllers, and that seemed to help. 
+Also making them move 'into eachother' to force contact seems to help
+The raised P gain (*4) however created big rpsses when they tried to move into eachother. 
+Try again moving into eachother without increase of gains. 
+Also: put them back after assembly if you decide to do it anyway. 
+
+
+test 9:
+SUCCES!
+Assembly was achieved. 
+
+Phase 30-37 were run. 
+For connecting the pressure between vessels really helped.
+It was however nessecary to increase P gain for displacement. I increased it at a total factor of four.  (this is like adaptive controller)
+Without this, with current gains (only proportional
+
+At the platform responses, note the following:
+Resulting moments/forces from the PID controller have not been scaled to the new inertia/mass of the vessel, or the new maximum torque or force. 
+This is for tomorrow I guess...
+
+to revieuw todays code: see controlcode8apr.txt
+
+
+Test 10: no data. ignore
+
+test 11: sinusoid. Gains were not set properly so vessel could not follow. 
+
+test 12. Gains doubled, and sinusoid rescaled to lentgh of 2pi and a width of 2, at a speed of 0.1m/s
+I think it cannot keep up enough with only proportional control. If this is true, that Ill have to see from the data. 
+Also; The new gain that I now doubled should follow from the program itself, not from my guesses. 
+The gains should have more than doubled for this configuration, that I know, yet i just wanted to see if it would be able to follow a changing reference. 
+
+Tomorrow: test adaptive gain estimator. 
+make the vessel follow a sinusoid. 
+
+
+
+
+TEST 13 9 apr 14:40
+same setup as test 6 & 7. but with increased p for position, and some dampening for angle
+
+            obj.Kxy_0 = [0.50,0.0,0.0];
+            obj.Ka_0 = [0.03,0,0.01];
+
+During x step the angle was pretty big Stabilizing looked quite quick. Confirm with data if this is true. Would make sense as p gain is much higher. 
+During yaw step, there was alot of overshoot, but it stabilized pretty quickly. Also motors seemed to be operating very harschly.
+Y step seemed pretty good! good time and little overshoot. 
+Overall: the motors were turning hin and forth, costing alot of control effort perhaps. This will cause noise due to wobbling of the vessel. I will not fix this, but this has to be mentioned. 
+
+Data looks good at first glance.  I will not do another iteration of single vessel location PID tuning. 
+
+
+
+TEST 14: 9 apr 15:15
+Get assembly running again with current pid gains. 
+Everything seemed to run allright with single delfia PID settings
+In this experiment the PID values are not scaled to the platform!
+This is for test 15!
+These non scaled responses are however interesting. Will save current protocol as test14code.txt
+
+
+
+Test 15
+First attempt at scaling PID output to normalized response of platform
+Main code phases executed:
+---------------------------------------------------
+                case 50
+                    obj.singleDelfiaInertia = obj.controllers(2).calcInertia();
+                    obj.singleDelfiaMass = obj.controllers(2).calcMass();
+                    obj.singleDelfiaMaxForce = obj.controllers(2).findMaxForce();
+                    obj.singleDelfiaMaxTorque = obj.controllers(2).findMaxMoment();
+                    obj.phase = 29;
+                case 51
+                    obj.controllers(1).detatchBody(1);
+                    obj.fleet(1).platf_eta=[0;-obj.fleet(1).w;0];
+                    obj.controllers(3).detatchBody(1);
+                    obj.fleet(3).platf_eta=[0;obj.fleet(3).w;0];
+                    obj.phase = 29;
+                    
+                case 52
+                    obj.controllers(2).attachBody(obj.fleet(1));
+                    obj.phase = 29;
+                    
+                case 53
+                    obj.controllers(2).attachBody(obj.fleet(3));
+                    obj.phase = 29;
+                    
+                case 53.1
+                    Inertia = obj.controllers(2).calcInertia()
+                    Mass = obj.controllers(2).calcMass()
+                    MaxForce = obj.controllers(2).findMaxForce()
+                    MaxTorque = obj.controllers(2).findMaxMoment()
+                    
+                    obj.controllers(2).PIDs(1).Kp = obj.controllers(2).Kxy_0(1)*MaxForce/obj.singleDelfiaMaxForce;
+                    obj.controllers(2).PIDs(2).Kp = obj.controllers(2).Kxy_0(1)*MaxForce/obj.singleDelfiaMaxForce;
+                    obj.controllers(2).PIDs(3).Kp = obj.controllers(2).Ka_0(1)*MaxTorque/obj.singleDelfiaMaxTorque;
+                    
+                    obj.controllers(2).PIDs(1).Kd = obj.controllers(2).Kxy_0(3)*(MaxForce/obj.singleDelfiaMaxForce)*(Mass/obj.singleDelfiaMass);
+                    obj.controllers(2).PIDs(2).Kd = obj.controllers(2).Kxy_0(3)*(MaxForce/obj.singleDelfiaMaxForce)*(Mass/obj.singleDelfiaMass);
+                    obj.controllers(2).PIDs(3).Kd = obj.controllers(2).Ka_0(3)*(MaxTorque/obj.singleDelfiaMaxTorque)*(Inertia/obj.singleDelfiaInertia);
+                    obj.phase = 29;
+                    
+                case 54
+                    obj.controllers(2).x_r = [1,0,0,0,0,0];
+                    obj.controllers(2).ros_pub_ref();
+----------------------------------------------------------------------
+Single delfia stats:
+      singleDelfiaInertia: 0.1410
+         singleDelfiaMass: 4
+     singleDelfiaMaxForce: 0.5000
+    singleDelfiaMaxTorque: 0.0775
+
+            obj.Kxy_0 = [0.50,0.0,0.0];
+            obj.Ka_0 = [0.03,0,0.01];
+
+3 coupled delfia stats:
+
+Inertia  0.7430
+Mass     12
+MaxForce     1.5000
+MaxTorque   0.3005
+
+new gains
+K_xy_new = [1.5 0 0]
+K_a_new =  [0.1163 0 0.2043]
+
+The vessel behaved ridiculous in the rotation part. There was oscillation and the vessel tried to compensate for its angle way too much. Why? 
+
+Test 16
+Commented out the derivative scaling in phase 53.1
+
+-----
+                case 53.1
+                    Inertia = obj.controllers(2).calcInertia()
+                    Mass = obj.controllers(2).calcMass()
+                    MaxForce = obj.controllers(2).findMaxForce()
+                    MaxTorque = obj.controllers(2).findMaxMoment()
+                    
+                    obj.controllers(2).PIDs(1).Kp = obj.controllers(2).Kxy_0(1)*MaxForce/obj.singleDelfiaMaxForce;
+                    obj.controllers(2).PIDs(2).Kp = obj.controllers(2).Kxy_0(1)*MaxForce/obj.singleDelfiaMaxForce;
+                    obj.controllers(2).PIDs(3).Kp = obj.controllers(2).Ka_0(1)*MaxTorque/obj.singleDelfiaMaxTorque;
+                    
+                    %obj.controllers(2).PIDs(1).Kd = obj.controllers(2).Kxy_0(3)*(MaxForce/obj.singleDelfiaMaxForce)*(Mass/obj.singleDelfiaMass);
+                    %obj.controllers(2).PIDs(2).Kd = obj.controllers(2).Kxy_0(3)*(MaxForce/obj.singleDelfiaMaxForce)*(Mass/obj.singleDelfiaMass);
+                    %obj.controllers(2).PIDs(3).Kd = obj.controllers(2).Ka_0(3)*(MaxTorque/obj.singleDelfiaMaxTorque)*(Inertia/obj.singleDelfiaInertia);
+                    obj.phase = 29;
+---                    
+
+----- console output
+>> op.controllers(2).PIDs(3)   ans = 
+
+  dPID with properties:
+
+                    Kp: 0.1163
+                    Ki: 0
+                    Kd: 0.0100
+            integrator: 0
+                e_last: 0
+    interpolationStyle: 'rectangle'
+            limits_set: 0
+           limit_upper: []
+           limit_lower: []
+     int_buildup_limit: []
+
+
+
+This seemed to behave quite good. I am fairly happy with this response. 
+This measurement is done twice in the same file, in case some step was not really nice. Choose as you like. or ignore the second set of tests of this file.
+The overshoot of the angle is a bit high tho. Idk why. but perhaps I can figure that out during data evaluation. 
+The twisting propeller instability could still be seen in the second part (i cannot recall the first section). Sometimes the angle dampens out but sometimes it starts oscillating due to the movement of the thrusters. Quite cute
+
+
+

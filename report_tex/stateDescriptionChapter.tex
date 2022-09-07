@@ -1,0 +1,24 @@
+\chapter{Multi-vessel System State Description}
+\label{chap:stateDescription}
+This chapter builds on existing vessel state descriptions to formulate a multi-vessel state description. Furthermore, a novel approach to predict multi-vessel platform dynamics from individual models is proposed to  answer the research subquestion:
+
+\begin{itemize}
+	\item How can the dynamics of the multi-vessel system be represented?
+\end{itemize}
+The described multi-vessel state description as described in Sec. \ref{sec:notations} aims to enable consistent system notation of scenarios pertaining more than a single vessel, as mult-vessel frameworks have more objects that can be referred to. The concept and definition of a platform-coordinate system is also introduced.
+
+For collaborative motion control of modular objects an approximate dynamical model is often desired. As model parameter estimation experiments are often infeasible for every configuration of a combined structure, a prediction of dynamical behavior is proposed using the often known dynamics of modules in Sec. \ref{platformModel}
+
+\input{systemAnalysisNotations}
+
+\input{multivesselplatformmodelapproach1}
+
+\vspace{20mm}
+
+This chapter described the multi-vessel state notation that allows consistent referencing to objects in a scenario pertaining multiple waterborn structures. Parameters that describe a parameter of a ship (such as forces, positions and velocities) are identifyable with subscripts indicating which object it pertains. The same approach has been applied to platform state description, such that various body ( $[\{b_1\},\{b_2\}, ...,\{b_i\}$), platform  ($[\{p_1\},\{p_2\}, ...,\{p_i\}$) and global (inertial frame $\{n\}$) are distinguished. 
+Furthermore, an approach to predicting dynamcis of a combined waterborne structure from has been proposed that uses often known models of individual modules as building blocks. 
+Both the multi-vessl state notation and the proposed platform model will be used in the next chapter during the development of a control system of the described structure. 
+
+
+
+

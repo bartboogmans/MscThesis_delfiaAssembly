@@ -1,0 +1,53 @@
+\chapter*{Nomenclature}
+\addcontentsline{toc}{chapter}{Nomenclature}
+\section*{Symbols}
+\begin{center}
+	\begin{tabular}{p{1cm}p{3cm}p{10cm}}
+		$\textbf{p}^{i}_{j} $ 			& $ = [x,y,z]^\top $ &  	Position of point $j$ expressed in coordinate system $\{i\}$. If $j$ is a coordinate system then it refers to its origin.\\[5pt]
+		$\Theta_{ij}$ 					& $ = [\phi ,\theta,\psi]^\top $  & 	Euler angles between coordinate systems $\{i\}$ and $\{j\}$ \\[5pt]
+		$ \textbf{v}^{k}_{i/j}$   		& $ = [u,v,w]^\top $  & 	Linear velocity of point i with respect to j expressed in coordinate system $\{k\}$ \\[5pt]
+		$ \omega^{k}_{i/j}$   			& $ = [p,q,r]^\top $ &	Angular velocity of object i with respect to j expressed in coordinate system $\{k\}$  \\[5pt]
+		$\boldmath{f}^{i}_{j} $ 	   	& $ = [f_x,f_y,f_z]^\top $ &	Force with line of action through point $j$ expressed in coordinate system $\{i\}$ \\[5pt]
+		$\boldmath{m}^{i}_{j} $   		& $ = [m_x,m_y,m_z]^\top $ & 	Moment about point $j$ expressed in coordinate system $\{i\}$ \\[5pt]
+		$\eta$ & $= [\textbf{p}, \Theta]^\top$ & Generalized position\\[5pt]
+		$\nu$ & $= [\textbf{v}, \omega]^\top$ & Generalized velocity\\[5pt]
+		$\tau$ & $= [\boldmath{f}, \boldmath{m}]^\top$ & Generalized forces\\[5pt]
+		$\textbf{R}_{i}^{j}$ & & Rotation matrix to rotate a vector from coordinate system $\{i\}$ to $\{j\}$\\[5pt]
+		$ \textbf{M}$ & & Matrix representing inertial terms of a body\\[5pt]
+		$ \textbf{M}_{RB}$ & & Rigid body mass \\[5pt]
+		$ \textbf{M}_{A}$ & & Hydrodynamic added mass \\[5pt]
+		$ \textbf{C}$ & & Matrix representing Coriolis \& centripetal forces \\[5pt]
+		$ \textbf{D}$ & & Matrix representing dampening forces \\[5pt]
+		$ \textbf{S}$ & & Skew symmetric cross product operator \\[5pt]
+		$\textbf{o}_i$ & & 	Origin of coordinate system $\{i\}$ \\[5pt]
+		$t$ & & Time \\[5pt]
+		$\textbf{C}_f,\textbf{C}_m$ & & Contribution factor of control effort allocation to a thruster \\[5pt]
+		$\textbf{H}$ & & State space coordinate system transformation matrix representing translation \\[5pt]
+		$\textbf{J}$ & & State space coordinate system transformation matrix representing rotation
+	\end{tabular}
+\end{center}
+
+\section*{Sub- \& Superscripts}
+\begin{center}
+	\begin{tabular}{p{1cm}p{3cm}p{10cm}}
+		$\textbf{p}_{i/j}^{k}$ & & Example parameter p of object $\{i\}$ with respect to object $\{j\}$, expressed in coordinate system $\{k\}$.\\[5pt]
+		$\{n\}$ & & Earth fixed coordinate system, also referenced to as 'global', and commonly assumed inertial\\[5pt]
+		$\{bi\}$ & & Body fixed coordinate system of object $\{i\}$\\[5pt]
+		$\{pi\}$ & & Platform (or assembly) fixed coordinate system $\{i\}$ \\[5pt]
+		$\{CG\}$ & & Object or reference is the Centre of Gravity $\{i\}$ \\[5pt]
+	\end{tabular}
+\end{center}	
+
+\section*{Acronyms}
+\begin{center}
+	\begin{tabular}{p{1cm}p{3cm}p{10cm}}
+		CG	&	&	Centre of Gravity \\[5pt]
+		GNC & & Guidance Navigation \& Control (system categorization)\\[5pt]
+		IMO & & International Maritime Organisation \\[5pt]
+		MRR & & Modular Reconfigurable Robot\\[5pt]
+		MTT & & Department of Maritime \& Transport Technology, Technical University Delft \\[5pt]
+		PID & & Proportional Integral \& Derivative (controller)\\[5pt]
+		RAS & & Researchlab Autonomous Shipping, Delft\\[5pt]
+		ROS & & Robotic Operating System
+	\end{tabular}
+\end{center}

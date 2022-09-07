@@ -1,0 +1,387 @@
+\begin{thebibliography}{55}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ang et~al.(2005)Ang, Chong, and Li]{ang2005pid}
+Kiam~Heong Ang, Gregory Chong, and Yun Li.
+\newblock Pid control system analysis, design, and technology.
+\newblock \emph{IEEE transactions on control systems technology}, 13\penalty0
+  (4):\penalty0 559--576, 2005.
+
+\bibitem[ASA(Accessed 2021, October 10)]{yaraBirkelandWebNov2020}
+Yara~International ASA.
+\newblock Yara birkeland status november 2020, Accessed 2021, October 10.
+\newblock URL
+  \url{https://www.yara.com/news-and-media/press-kits/yara-birkeland-press-kit/}.
+
+\bibitem[Ashrafiuon et~al.(2010)Ashrafiuon, Muske, and
+  McNinch]{ashrafiuon2010review}
+Hashem Ashrafiuon, Kenneth~R Muske, and Lucas~C McNinch.
+\newblock Review of nonlinear tracking and setpoint control approaches for
+  autonomous underactuated marine vehicles.
+\newblock In \emph{Proceedings of the 2010 American Control Conference}, pages
+  5203--5211. IEEE, 2010.
+
+\bibitem[Bidikli et~al.(2016)Bidikli, Tatlicioglu, and
+  Zergeroglu]{bidikli2016robust}
+Baris Bidikli, Enver Tatlicioglu, and Erkan Zergeroglu.
+\newblock Robust dynamic positioning of surface vessels via multiple
+  unidirectional tugboats.
+\newblock \emph{Ocean Engineering}, 113:\penalty0 237--245, 2016.
+
+\bibitem[Boogmans(2020)]{boogmans2020Delfia}
+B~Boogmans.
+\newblock Delfia-1* low level control performance optimization.
+\newblock Technical report, Delft University of Technology, 2020.
+
+\bibitem[Braganza et~al.(2007)Braganza, Feemster, and Dawson]{4282954}
+D.~Braganza, M.~Feemster, and D.~Dawson.
+\newblock Positioning of large surface vessels using multiple tugboats.
+\newblock In \emph{2007 American Control Conference}, pages 912--917, 2007.
+\newblock \doi{10.1109/ACC.2007.4282954}.
+
+\bibitem[Chen(2019)]{chen2019cooperative}
+L~Chen.
+\newblock \emph{Cooperative Multi-Vessel Systems for Waterborne Transport}.
+\newblock PhD thesis, Delft University of Technology, 2019.
+
+\bibitem[Chen et~al.(2019)Chen, Hopman, and Negenborn]{chen2019distributed}
+Linying Chen, Hans Hopman, and Rudy~R Negenborn.
+\newblock Distributed model predictive control for cooperative floating object
+  transport with multi-vessel systems.
+\newblock \emph{Ocean Engineering}, 191:\penalty0 106515, 2019.
+
+\bibitem[Chen et~al.(2020)Chen, Negenborn, Huang, and Hopman]{chen2020survey}
+Linying Chen, Rudy Negenborn, Yamin Huang, and Hans Hopman.
+\newblock Survey on cooperative control for waterborne transport.
+\newblock \emph{IEEE Intelligent Transportation Systems Magazine}, 13\penalty0
+  (2):\penalty0 71--90, 2020.
+
+\bibitem[Clarke(2003)]{clarke2003foundations}
+David Clarke.
+\newblock The foundations of steering and manoeuvring.
+\newblock In \emph{Proc. of the IFAC Conference on Manoeuvering and Control
+  Marine Crafts, Girona}, pages 10--25. School of Marine Science and
+  Technology, University of Newcastle upon Tyne - UK, 2003.
+
+\bibitem[de~Vos et~al.(2021)de~Vos, Hekkenberg, and Banda]{de2021impact}
+Jiri de~Vos, Robert~G Hekkenberg, and Osiris A~Valdez Banda.
+\newblock The impact of autonomous ships on safety at sea--a statistical
+  analysis.
+\newblock \emph{Reliability Engineering \& System Safety}, 210:\penalty0
+  107558, 2021.
+
+\bibitem[Du et~al.(2020)Du, Reppa, and Negenborn]{du2020cooperative}
+Zhe Du, Vasso Reppa, and Rudy~R Negenborn.
+\newblock Cooperative control of autonomous tugs for ship towing.
+\newblock \emph{IFAC-PapersOnLine}, 53\penalty0 (2):\penalty0 14470--14475,
+  2020.
+
+\bibitem[Du et~al.(2021)Du, Negenborn, and Reppa]{du2021cooperative}
+Zhe Du, Rudy~R Negenborn, and Vasso Reppa.
+\newblock Cooperative multi-agent control for autonomous ship towing under
+  environmental disturbances.
+\newblock \emph{IEEE/CAA Journal of Automatica Sinica}, 8\penalty0
+  (8):\penalty0 1365--1379, 2021.
+
+\bibitem[Esposito et~al.(2008)Esposito, Feemster, and
+  Smith]{esposito2008cooperative}
+Joel Esposito, Matthew Feemster, and Erik Smith.
+\newblock Cooperative manipulation on the water using a swarm of autonomous
+  tugboats.
+\newblock In \emph{2008 IEEE International Conference on Robotics and
+  Automation}, pages 1501--1506. IEEE, 2008.
+
+\bibitem[Faltinsen(2005)]{faltinsen2005hydrodynamics}
+Odd~M Faltinsen.
+\newblock \emph{Hydrodynamics of high-speed marine vehicles}.
+\newblock Cambridge university press, 2005.
+
+\bibitem[Feemster et~al.(2006)Feemster, Esposito, and
+  Nicholson]{feemster2006manipulation}
+Matthew Feemster, Joel Esposito, and Jack Nicholson.
+\newblock Manipulation of large objects by swarms of autonomous marine
+  vehicles. part 1-rotation.
+\newblock Technical report, Naval academy Annapolis MD dept of weapons and
+  systems engineering, 2006.
+
+\bibitem[Feemster and Esposito(2011)]{feemster2011comprehensive}
+Matthew~G Feemster and Joel~M Esposito.
+\newblock Comprehensive framework for tracking control and thrust allocation
+  for a highly overactuated autonomous surface vessel.
+\newblock \emph{Journal of Field Robotics}, 28\penalty0 (1):\penalty0 80--100,
+  2011.
+
+\bibitem[for Advanced Metropolitan~Solutions(Accessed March
+  2021)]{roboatWebsite}
+Amsterdam~Institute for Advanced Metropolitan~Solutions.
+\newblock Roboat project website, Accessed March 2021.
+\newblock URL \url{https://roboat.org/}.
+
+\bibitem[for Standardization~(ISO)(15 march
+  2021)]{IMO103ISORegulatoryScopingExMass}
+International~Organiszation for Standardization~(ISO).
+\newblock Regulatory scoping exercise for the use of maritime autonomous
+  surface ships (mass). maritime safety committee (msc). 103th session. agenda
+  item 5.
+\newblock International Maritime Organization, 15 march 2021.
+
+\bibitem[Fossen(1994)]{fossen1994guidance}
+T~Fossen.
+\newblock Guidance and control of ocean vehicles. john willey \& sons.
+\newblock \emph{Inc., New York}, 1994.
+
+\bibitem[Fossen(2011)]{fossen2011handbook}
+Thor~I Fossen.
+\newblock \emph{Handbook of marine craft hydrodynamics and motion control}.
+\newblock John Wiley \& Sons, 2011.
+
+\bibitem[Fossen and Fjellstad(1995)]{fossenFjellstad1995}
+Thor~I. Fossen and Ola-Erik Fjellstad.
+\newblock Nonlinear modelling of marine vehicles in 6 degrees of freedom.
+\newblock \emph{Mathematical Modelling of Systems}, 1\penalty0 (1):\penalty0
+  17--27, 1995.
+\newblock \doi{10.1080/13873959508837004}.
+\newblock URL \url{https://doi.org/10.1080/13873959508837004}.
+
+\bibitem[Gheneti et~al.(2019)Gheneti, Park, Kelly, Meyers, Leoni, Ratti, and
+  Rus]{8901099}
+Banti Gheneti, Shinkyu Park, Ryan Kelly, Drew Meyers, Pietro Leoni, Carlo
+  Ratti, and Daniela Rus.
+\newblock Trajectory planning for the shapeshifting of autonomous surface
+  vessels.
+\newblock In \emph{2019 International Symposium on Multi-Robot and Multi-Agent
+  Systems (MRS)}, pages 76--82, 2019.
+\newblock \doi{10.1109/MRS.2019.8901099}.
+
+\bibitem[Gro{\ss} et~al.(2006{\natexlab{a}})Gro{\ss}, Bonani, Mondada, and
+  Dorigo]{gross2006autonomous}
+Roderich Gro{\ss}, Michael Bonani, Francesco Mondada, and Marco Dorigo.
+\newblock Autonomous self-assembly in swarm-bots.
+\newblock \emph{IEEE transactions on robotics}, 22\penalty0 (6):\penalty0
+  1115--1130, 2006{\natexlab{a}}.
+
+\bibitem[Gro{\ss} et~al.(2006{\natexlab{b}})Gro{\ss}, Tuci, Dorigo, Bonani, and
+  Mondada]{gross2006object}
+Roderich Gro{\ss}, Elio Tuci, Marco Dorigo, Michael Bonani, and Francesco
+  Mondada.
+\newblock Object transport by modular robots that self-assemble.
+\newblock In \emph{Proceedings 2006 IEEE International Conference on Robotics
+  and Automation, 2006. ICRA 2006.}, pages 2558--2564. IEEE,
+  2006{\natexlab{b}}.
+
+\bibitem[Habibi et~al.(2016)Habibi, Xie, Jellins, and
+  McLurkin]{habibi2016distributed}
+Golnaz Habibi, William Xie, Mathew Jellins, and James McLurkin.
+\newblock Distributed path planning for collective transport using homogeneous
+  multi-robot systems.
+\newblock In \emph{Distributed Autonomous Robotic Systems}, pages 151--164.
+  Springer, 2016.
+
+\bibitem[Heo et~al.(2017)Heo, Kim, Kwon, et~al.]{heo2017analysis}
+Jinyeong Heo, Junghoon Kim, Yongjin Kwon, et~al.
+\newblock Analysis of design directions for unmanned surface vehicles (usvs).
+\newblock \emph{Journal of Computer and Communications}, 5\penalty0
+  (07):\penalty0 92, 2017.
+
+\bibitem[Humphreys and Watkinson(1978)]{humphreys1978prediction}
+DE~Humphreys and KW~Watkinson.
+\newblock Prediction of acceleration hydrodynamic coefficients for underwater
+  vehicles from geometric parameters.
+\newblock Technical report, NAVAL COASTAL SYSTEMS LAB PANAMA CITY FL, 1978.
+
+\bibitem[Inc(Accessed 2021, August 23)]{stepinfoWebMatlab}
+The~Mathworks Inc.
+\newblock Stepinfo function documentation, Accessed 2021, August 23.
+\newblock URL
+  \url{https://www.mathworks.com/help/control/ref/lti.stepinfo.html}.
+
+\bibitem[Johansen and Fossen(2013)]{johansen2013control}
+Tor~A Johansen and Thor~I Fossen.
+\newblock Control allocation—a survey.
+\newblock \emph{Automatica}, 49\penalty0 (5):\penalty0 1087--1103, 2013.
+
+\bibitem[Kayacan et~al.(2019)Kayacan, Park, Ratti, and
+  Rus]{kayacan2019learning}
+Erkan Kayacan, Shinkyu Park, Carlo Ratti, and Daniela Rus.
+\newblock Learning-based nonlinear model predictive control of reconfigurable
+  autonomous robotic boats: Roboats.
+\newblock In \emph{IROS}, pages 8230--8237, 2019.
+
+\bibitem[Kelly(2019)]{kelly2019algorithms}
+Ryan~Henderson Kelly.
+\newblock \emph{Algorithms for planning and executing multi-roboat
+  shapeshifting}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2019.
+
+\bibitem[Kirchhoff(1869)]{kirchhoff1869bewegung}
+G~Kirchhoff.
+\newblock {\"U}ber die bewegung eines rotationsk{\"o}rpers in einer
+  fl{\"u}ssigkeit.
+\newblock \emph{J. Reine Ang. Math}, 71:\penalty0 237--281, 1869.
+
+\bibitem[Komianos(2018)]{komianos2018autonomous}
+Aristotelis Komianos.
+\newblock The autonomous shipping era. operational, regulatory, and quality
+  challenges.
+\newblock \emph{TransNav: International Journal on Marine Navigation and Safety
+  of Sea Transportation}, 12\penalty0 (2), 2018.
+
+\bibitem[Lerman et~al.(2006)Lerman, Jones, Galstyan, and
+  Matari{\'c}]{lerman2006analysis}
+Kristina Lerman, Chris Jones, Aram Galstyan, and Maja~J Matari{\'c}.
+\newblock Analysis of dynamic task allocation in multi-robot systems.
+\newblock \emph{The International Journal of Robotics Research}, 25\penalty0
+  (3):\penalty0 225--241, 2006.
+
+\bibitem[Mateos et~al.(2019)Mateos, Wang, Gheneti, Duarte, Ratti, and
+  Rus]{mateos2019autonomous}
+Luis~A Mateos, Wei Wang, Banti Gheneti, Fabio Duarte, Carlo Ratti, and Daniela
+  Rus.
+\newblock Autonomous latching system for robotic boats.
+\newblock In \emph{2019 International Conference on Robotics and Automation
+  (ICRA)}, pages 7933--7939. IEEE, 2019.
+
+\bibitem[Miyashita et~al.(2008)Miyashita, Kessler, and
+  Lungarella]{miyashita2008morphology}
+Shuhei Miyashita, Marco Kessler, and Max Lungarella.
+\newblock How morphology affects self-assembly in a stochastic modular robot.
+\newblock In \emph{2008 IEEE International Conference on Robotics and
+  Automation}, pages 3533--3538. IEEE, 2008.
+
+\bibitem[Nzengu et~al.(2021)Nzengu, Faivre, Pauwelyn, Bolbot, Wennersberg, and
+  Theotokatos]{nzengu2021regulatory}
+Wa~Nzengu, J{\'e}r{\^o}me Faivre, Ann-Sofie Pauwelyn, Victor Bolbot, Lars
+  Andreas~Lien Wennersberg, and Gerasimos Theotokatos.
+\newblock Regulatory framework analysis for the unmanned inland waterway
+  vessel.
+\newblock \emph{WMU Journal of Maritime Affairs}, pages 1--20, 2021.
+
+\bibitem[of~Michigan and Mellon(Accessed 2021, October 10)]{PIDIntroMIT}
+University of~Michigan and Carnegie Mellon.
+\newblock Matlab \& simulink control: Pid controller design, Accessed 2021,
+  October 10.
+\newblock URL
+  \url{https://ctms.engin.umich.edu/CTMS/index.php?example=Introduction&section=ControlPID}.
+
+\bibitem[O'hara et~al.(2014)O'hara, Paulos, Davey, Eckenstein, Doshi, Tosun,
+  Greco, Seo, Turpin, Kumar, et~al.]{o2014self}
+Ian O'hara, James Paulos, Jay Davey, Nick Eckenstein, Neel Doshi, Tarik Tosun,
+  Jonathan Greco, Jungwon Seo, Matt Turpin, Vijay Kumar, et~al.
+\newblock Self-assembly of a swarm of autonomous boats into floating
+  structures.
+\newblock In \emph{2014 IEEE International Conference on Robotics and
+  Automation (ICRA)}, pages 1234--1240. IEEE, 2014.
+
+\bibitem[Parasuraman et~al.(2000)Parasuraman, Sheridan, and
+  Wickens]{parasuraman2000model}
+Raja Parasuraman, Thomas~B Sheridan, and Christopher~D Wickens.
+\newblock A model for types and levels of human interaction with automation.
+\newblock \emph{IEEE Transactions on systems, man, and cybernetics-Part A:
+  Systems and Humans}, 30\penalty0 (3):\penalty0 286--297, 2000.
+
+\bibitem[Park et~al.(2019)Park, Kayacan, Ratti, and Rus]{park2019coordinated}
+Shinkyu Park, Erkan Kayacan, Carlo Ratti, and Daniela Rus.
+\newblock Coordinated control of a reconfigurable multi-vessel platform: Robust
+  control approach.
+\newblock In \emph{2019 International Conference on Robotics and Automation
+  (ICRA)}, pages 4633--4639. IEEE, 2019.
+
+\bibitem[Paulos et~al.(2015)Paulos, Eckenstein, Tosun, Seo, Davey, Greco,
+  Kumar, and Yim]{paulos2015automated}
+James Paulos, Nick Eckenstein, Tarik Tosun, Jungwon Seo, Jay Davey, Jonathan
+  Greco, Vijay Kumar, and Mark Yim.
+\newblock Automated self-assembly of large maritime structures by a team of
+  robotic boats.
+\newblock \emph{IEEE Transactions on Automation Science and Engineering},
+  12\penalty0 (3):\penalty0 958--968, 2015.
+
+\bibitem[Sagatun and Fossen(1991)]{sagatun1991lagrangian}
+Svein~I Sagatun and Thor~I Fossen.
+\newblock Lagrangian formulation of underwater vehicles' dynamics.
+\newblock In \emph{Conference Proceedings 1991 IEEE International Conference on
+  Systems, Man, and Cybernetics}, pages 1029--1034. IEEE, 1991.
+
+\bibitem[Seo et~al.(2019)Seo, Paik, and Yim]{seo2019modular}
+Jungwon Seo, Jamie Paik, and Mark Yim.
+\newblock Modular reconfigurable robotics.
+\newblock \emph{Annual Review of Control, Robotics, and Autonomous Systems},
+  2:\penalty0 63--88, 2019.
+
+\bibitem[Smith et~al.(2007)Smith, Feemster, and Esposito]{smith2007swarn}
+Erik~T Smith, Matthew~G Feemster, and Joel~M Esposito.
+\newblock Swarn manipulation of an unactuated surface vessel.
+\newblock In \emph{2007 Thirty-Ninth Southeastern Symposium on System Theory},
+  pages 16--20. IEEE, 2007.
+
+\bibitem[Smithers(1997)]{smithers1997autonomy}
+Tim Smithers.
+\newblock Autonomy in robots and other agents.
+\newblock \emph{Brain and cognition}, 34\penalty0 (1):\penalty0 88--106, 1997.
+
+\bibitem[SNAME(1950)]{sname1950nomenclature}
+TheSocietyofNavalArchitectureandMarineEngineers SNAME.
+\newblock Nomenclature for treating the motion of a submerged body through a
+  fluid.
+\newblock \emph{The Society of Naval Architects and Marine Engineers, Technical
+  and Research Bulletin No}, pages 1--5, 1950.
+
+\bibitem[Tuci et~al.(2018)Tuci, Alkilabi, and Akanyeti]{tuci2018cooperative}
+Elio Tuci, Muhanad~HM Alkilabi, and Otar Akanyeti.
+\newblock Cooperative object transport in multi-robot systems: A review of the
+  state-of-the-art.
+\newblock \emph{Frontiers in Robotics and AI}, 5:\penalty0 59, 2018.
+
+\bibitem[Vagia et~al.(2016)Vagia, Transeth, and
+  Fjerdingen]{vagia2016literature}
+Marialena Vagia, Aksel~A. Transeth, and Sigurd~A. Fjerdingen.
+\newblock A literature review on the levels of automation during the years.
+  what are the different taxonomies that have been proposed?
+\newblock \emph{Applied Ergonomics}, 53:\penalty0 190--202, 2016.
+\newblock ISSN 0003-6870.
+\newblock \doi{https://doi.org/10.1016/j.apergo.2015.09.013}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0003687015300855}.
+
+\bibitem[Wang et~al.(2018)Wang, Mateos, Park, Leoni, Gheneti, Duarte, Ratti,
+  and Rus]{wang2018design}
+Wei Wang, Luis~A. Mateos, Shinkyu Park, Pietro Leoni, Banti Gheneti, Fabio
+  Duarte, Carlo Ratti, and Daniela Rus.
+\newblock Design, modeling, and nonlinear model predictive tracking control of
+  a novel autonomous surface vehicle.
+\newblock In \emph{2018 IEEE International Conference on Robotics and
+  Automation (ICRA)}, pages 6189--6196, 2018.
+\newblock \doi{10.1109/ICRA.2018.8460632}.
+
+\bibitem[Wang et~al.(2020)Wang, Shan, Leoni, Fern{\'a}ndez-Guti{\'e}rrez,
+  Meyers, Ratti, and Rus]{wang2020roboat}
+Wei Wang, Tixiao Shan, Pietro Leoni, David Fern{\'a}ndez-Guti{\'e}rrez, Drew
+  Meyers, Carlo Ratti, and Daniela Rus.
+\newblock Roboat ii: A novel autonomous surface vessel for urban environments.
+\newblock \emph{arXiv preprint arXiv:2007.10220}, 2020.
+
+\bibitem[Wei et~al.(2013)Wei, Li, Liu, and Tan]{wei2013novel}
+Hongxing Wei, Ning Li, Miao Liu, and Jindong Tan.
+\newblock A novel autonomous self-assembly distributed swarm flying robot.
+\newblock \emph{Chinese Journal of Aeronautics}, 26\penalty0 (3):\penalty0
+  791--800, 2013.
+
+\bibitem[Wiener(1948)]{norbert1948or}
+Norbert Wiener.
+\newblock Cybernetics: Or control and communication in the animal and the
+  machine.
+\newblock 1948.
+
+\bibitem[Yim et~al.(2007)Yim, Shen, Salemi, Rus, Moll, Lipson, Klavins, and
+  Chirikjian]{yim2007modular}
+Mark Yim, Wei-Min Shen, Behnam Salemi, Daniela Rus, Mark Moll, Hod Lipson, Eric
+  Klavins, and Gregory~S Chirikjian.
+\newblock Modular self-reconfigurable robot systems [grand challenges of
+  robotics].
+\newblock \emph{IEEE Robotics \& Automation Magazine}, 14\penalty0
+  (1):\penalty0 43--52, 2007.
+
+\end{thebibliography}

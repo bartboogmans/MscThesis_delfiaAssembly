@@ -1,0 +1,75 @@
+\section{Effects of combining systems}
+\label{analysisCombined}
+The previous sections discussed system analysis of modular surface vessel platforming systems that perform automated reconfiguration (section \ref{analysisReconfiguration}), and configuration adaptive platform control approaches (section \ref{analysisConfigAdaptation}).
+This section combines the analysis presented on these two systems by assessing how the functionality of these two systems can be combined. Various design considerations have been identified of which some will be discussed again in this section in a more pragmatic way. Fundamental requirements to achieve the system demands will be presented, yet more emphasis will be given on predicting what choices will be more relevant for commercial logistic applications instead of general robotics. 
+
+
+\subsection{Requirements}
+In order to realize both behaviors, various subfunctions have been identified in section \ref{analysisConfigAdaptation} and \ref{analysisReconfiguration}, which are summarized. Table \ref{tab:assemblyCharacteristicsSummed} presents characteristics of a system that performs Automatic vessel platform reconfiguration, together with the approach and design choices of projects that published about such systems. A similar table on characteristics of vessel platform systems that perform configuration adaptive control strategies are shown in table \ref{tab:adaptiveCharacteristicsSummed}:
+
+\begin{table}[H]
+	\centering
+	\begin{adjustbox}{width=1\textwidth}
+		\begin{tabular}{|l|l|l|l|}
+			\hline		
+			\begin{tabular}[c]{@{}l@{}}Fundamental Characteristic \\ or requirement \end{tabular} & Roboat project \cite{kelly2019algorithms} \cite{mateos2019autonomous} & \begin{tabular}[c]{@{}l@{}} ISO container module assembly \\ project \cite{o2014self} \cite{paulos2015automated}\end{tabular} & Notes \\ \specialrule{1.5pt}{1pt}{1pt}
+			
+			A set of modules & Homogeneous fleet  &  Homogeneous fleet  & 	\begin{tabular}[c]{@{}l@{}} Approaches and goals of implementing heterogenous and \\ homogeneous systems differ significantly. \end{tabular} \\ \hline
+			
+			A strategy to reconfigure. & Deterministic& Deterministic & \begin{tabular}[c]{@{}l@{}}  Various approaches are possible which can be categorized as stochastic \\ or deterministic \end{tabular}\\ \hline
+			
+			Means of repositioning modules  & \begin{tabular}[c]{@{}l@{}}Cross shaped non roatable\\ thruster setup. Individual \\ vessels are fully actuated \end{tabular} & \begin{tabular}[c]{@{}l@{}}Plus shaped non roatable\\ thruster setup. Individual \\ vessels are fully actuated \end{tabular} & \begin{tabular}[c]{@{}l@{}} Modules can be designed to perform independent or with help from \\ other agents. Individual modules can be under- or fully actuaded, while \\ the observed trend is towards the latter. \end{tabular} \\ \hline
+			
+			Means of maintaining configuration  & 
+			\begin{tabular}[c]{@{}l@{}}Physical ball-cone joint  \\ connection \cite{mateos2019autonomous} or by means \\ of magnets \end{tabular}  &
+			\begin{tabular}[c]{@{}l@{}}Physical rope-hook joint \\ connection. Variable \\ stiffness \end{tabular}  & 
+			Various solutions are possible, depending on scale, goal and environment. \\ \hline
+			
+		\end{tabular}
+	\end{adjustbox}
+	\caption{Fundamental characteristics on automated modular vessel platform reconfiguration systems}
+	\label{tab:assemblyCharacteristicsSummed}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{adjustbox}{width=1\textwidth}
+		\begin{tabular}{|l|l|l|}
+			\hline		
+			\begin{tabular}[c]{@{}l@{}}Fundamental Characteristic \\ or requirement \end{tabular}  & \citet{park2019coordinated}  &  Notes \\ \specialrule{1.5pt}{1pt}{1pt}
+			
+			Connected robots share a single objective & The platforms position is given as a reference. & \begin{tabular}[c]{@{}l@{}} Other approaches may also attempt to more directly \\ control speed besides position, or integrate higher \\ level planning (e.g. guidance) tasks.\end{tabular} \\ \hline
+				
+			Robot actions are coordinated  & \begin{tabular}[c]{@{}l@{}} A platform has a centralized controller,\\ deciding and coordinating all connected modules. \end{tabular} & \begin{tabular}[c]{@{}l@{}} Coordinated behavior is aimed to improve\\ performance with respect to the sum of individuals, \\ yet comes at the cost of increased complexity. \end{tabular}\\ \hline
+		
+			\begin{tabular}[c]{@{}l@{}} The decision making protocol functions\\ on a wide variety of configurations \end{tabular}  & \begin{tabular}[c]{@{}l@{}} Control approach uses an approximate model based \\ on the number of connected modules (however, not \\ the  configuration shape). The control system yields \\ a single control effort for the entire platform that is \\ subsequently distributed among modules. \end{tabular} & \begin{tabular}[c]{@{}l@{}} Criteria of motion control performance will \\ vary between usecases, as well as the amount of\\ considered configurations.   \end{tabular} \\ \hline
+			
+			
+			
+		\end{tabular}
+	\end{adjustbox}
+	\caption{Fundamental characteristics on collaborative and coordinated vessel-platform motion control systems}
+	\label{tab:adaptiveCharacteristicsSummed}
+\end{table}
+
+
+An additional characteristic is identified as these two behaviors are integrated in one framework. As a platform configuration changes through time, the motion control system needs to be able to support real time varying configuration parameter, such as estimated dynamics, size, shape, or centre of mass, or in some cases even the network topology. 
+
+\subsection{Common Considerations}
+Various considerations for multi robot systems have been observed as key to characterizing a design and are discussed here.
+
+Choosing centralized or decentralized control structures affect many design options for both platform asembly and control. Decentralization generally facilitates great scalability, such that they can be deployed at small scale and in great numbers. A centralized entity can however make decisions based on a more complete state of the overall system, and make more effective decisions. Centralized systems have a single point of failure, which can be undesirable. Centralized systems are also reliant on a communication network with a certain reliability, latency and bandwith.
+
+Homogeneous robot systems consist of robots which are designed to be similar, while heterogeneous systems have modules equipped with different shape, size or abilities. Heterogenous robots can use a wider variety of features without adding too many features per module, although a system topology can get more complex. Homogeneous robots can be interchanged by any other if desired, and are possibly easier to produce in large numbers. All sources that published results on systems that performed automated reconfiguration and configuration adaptive control have been applied using a homogenous fleet.
+
+Vessels that operate individually can be underactuated or fully actuated. Control of underactuated systems is generally more complex, though not impossible. \citet{ashrafiuon2010review} reviews different approaches of controlling automated  underactuated surface vessels. This work focusses on control approaches which are categorized in "setpoint", "trajectory tracking" and "path following" approaches. Light is shed on advantages and disadvantages of various mentioned approaches. It is convenient to have fully actuated modules for vessel platforming purposes, which is shown to be feasible by projects that use fully actuated vessels for both automated reconfiguration and configuration adaptive control. 
+
+Designing towards utilizing extensive amounts of communication in a multi robot system drastically changes availability of further design options. A vessel system connected into a network that continuously shares information can become reliant on the presence and performance of the network. Facilitating connectivity comes to cost at various facets. Modules need this extra feature built in, which makes a module more complex, expensive, power consuming, while adding another component that can break. Nihilistic approaches that only add essential features to a module will increase scalability, due to low cost, replacability and reliability. 
+
+
+To facilitate collaborative platform control, some communication between operator and module is always necessary, as the task of the platform needs to be communicated from human to the vessel system. Many multi robot systems that are nowadays developed often have a high reliance on communication network availability, as task distribution has many benefits and opens up new doors in terms of design choices and possible emergent behaviors. 
+
+\vspace{5mm}
+
+This chapter explored the meaning two behaviors of automated vessel platform control systems reffered to as 'automated reconfiguration' and 'collaborative and coordinated platform motion control'. Various approaches to describing and designing such systems were discussed to deepen understanding of the behaviors and broaden the view on potential design solutions. Fundamental characteristics of both evaluated systems have been identified to aid development of a framework integrating the two in the next chapter. 
+

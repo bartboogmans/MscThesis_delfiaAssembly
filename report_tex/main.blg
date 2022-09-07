@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 15 items.
+The style file: tudelft-report.bst
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "SagatunFossen1991"
+Warning--empty booktitle in IMO103ISORegulatoryScopingExMass
+Warning--empty journal in norbert1948or
+You've used 55 entries,
+            2773 wiz_defined-function locations,
+            924 strings with 16213 characters,
+and the built_in function-call counts, 28547 in all, are:
+= -- 2591
+> -- 1697
+< -- 39
++ -- 578
+- -- 522
+* -- 2289
+:= -- 4302
+add.period$ -- 184
+call.type$ -- 55
+change.case$ -- 336
+chr.to.int$ -- 54
+cite$ -- 112
+duplicate$ -- 1293
+empty$ -- 2254
+format.name$ -- 589
+if$ -- 6084
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 48
+newline$ -- 291
+num.names$ -- 220
+pop$ -- 691
+preamble$ -- 1
+purify$ -- 282
+quote$ -- 0
+skip$ -- 1044
+stack$ -- 0
+substring$ -- 1159
+swap$ -- 226
+text.length$ -- 17
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 595
+warning$ -- 2
+while$ -- 251
+width$ -- 0
+write$ -- 738
+(There were 3 warnings)

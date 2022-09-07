@@ -1,0 +1,68 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Executive Summary}{iii}{chapter*.1}%
+\contentsline {chapter}{Contents}{vii}{section*.2}%
+\contentsline {chapter}{Nomenclature}{ix}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem statement}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Approach}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Scope}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Thesis outline}{4}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Literature survey on modular vessel platform automation}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Terminology}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Automated reconfigurating vessel systems}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Collaborative motion control}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Gap in knowledge}{11}{section.2.4}%
+\contentsline {chapter}{\numberline {3}System Analysis}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Analysis of first required behavior: Automatic vessel platform reconfiguration}{13}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Strategies}{14}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Actuation}{15}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Analysis of second required behavior: Configuration adaptive vessel platform control}{16}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Problem Description}{16}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Motion control systems}{17}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Multi-robot Cooperation}{19}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Effects of combining systems}{20}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Requirements}{20}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Common Considerations}{21}{subsection.3.3.2}%
+\contentsline {chapter}{\numberline {4}Multi-vessel System State Description}{23}{chapter.4}%
+\contentsline {section}{\numberline {4.1}System State Notations}{23}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Single vessel state description}{23}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Multivessel system notation}{25}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Dynamical model of a Platform}{26}{section.4.2}%
+\contentsline {subsubsection}{Notes on representativeness of this model}{30}{equation.4.2.40}%
+\contentsline {chapter}{\numberline {5}System Development}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Design}{31}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Fleet Network Topology}{32}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Platform Level Control Approach}{34}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}State Estimation}{35}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Control Effort Generation}{36}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Control Effort Allocation}{39}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}Assembly Protocol}{41}{subsection.5.1.6}%
+\contentsline {section}{\numberline {5.2}Implementation}{42}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}System Components}{42}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Network setup}{47}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Control Software}{48}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Modifications throughout development}{49}{subsection.5.2.4}%
+\contentsline {chapter}{\numberline {6}Evaluation}{55}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Assembly}{55}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Platform Motion Control}{61}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Comparing results with design criteria}{68}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Conclusion}{69}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Discussion}{71}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Recommendations}{72}{section.7.2}%
+\contentsline {chapter}{Bibliography}{75}{chapter*.86}%
+\contentsline {chapter}{\numberline {A}Scientific report}{79}{appendix.A}%
+\contentsline {chapter}{\numberline {B}An approach to deriving dynamics of a combined naval structure from components' models}{93}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Translating and rotating expressions of motion}{94}{section.B.1}%
+\contentsline {subsection}{\numberline {B.1.1}Translation}{95}{subsection.B.1.1}%
+\contentsline {subsection}{\numberline {B.1.2}Rotation}{96}{subsection.B.1.2}%
+\contentsline {subsection}{\numberline {B.1.3}Motion of \{b\} expressed in terms of motion of \{p\}}{96}{subsection.B.1.3}%
+\contentsline {section}{\numberline {B.2}Translating and rotating forces}{97}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Formulating a combined model}{97}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Notes on representativeness of this approach}{100}{section.B.4}%
+\contentsline {chapter}{\numberline {C}Implemented Algorythms}{101}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Matlab Class: Delfia}{101}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Matlab Class: Platform Controller}{106}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Matlab Class: Fleet Manager}{115}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Matlab superclass: Vessel }{120}{section.C.4}%
+\contentsline {section}{\numberline {C.5}Matlab Class: discrete PID controller}{124}{section.C.5}%
+\contentsfinish 
